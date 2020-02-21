@@ -1,0 +1,21 @@
+env:
+  global:
+    - NODE_ENV=testing
+language: node_js
+node_js:
+  - 'stable'
+install: npm install
+services:
+  - postgresql
+cache:
+  directories:
+    - 'node_modules'
+before_script:
+  - psql -c 'create database quickdecks_test;' -U postgres
+  - psql -c "CREATE USER root WITH PASSWORD 'password';" -U postgres
+
+script:
+  - npm test
+
+notifications:
+  email: true

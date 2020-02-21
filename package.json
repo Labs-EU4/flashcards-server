@@ -1,0 +1,73 @@
+{
+  "name": "flashcards_backend",
+  "version": "0.0.1",
+  "description": "Back end for the quick decks app.",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing",
+    "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit --coverage --runInBand",
+    "start": "node index.js",
+    "server": "nodemon index.js ",
+    "lint": "eslint . --ext .js",
+    "lint-fix": "eslint . --ext .js --fix",
+    "migrate-dev": "npx knex migrate:rollback --all && npx knex migrate:latest",
+    "seed": "npx knex seed:run"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-fix && npm run lint ",
+      "pre-push": "npm run lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LABS-EU3/flashcards_backend.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "postgres",
+    "REST"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LABS-EU3/flashcards_backend/issues"
+  },
+  "homepage": "https://github.com/LABS-EU3/flashcards_backend#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "bcrypt": "^3.0.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.8",
+    "mailgen": "^2.0.10",
+    "nodemailer": "^6.4.2",
+    "nodemailer-stub": "^1.2.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
+    "pg": "^7.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
+    "supertest": "^4.0.2"
+  }
+}
