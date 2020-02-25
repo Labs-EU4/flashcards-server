@@ -1,0 +1,29 @@
+{
+  "addons": [
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "required": true
+    },
+    "SECRET": {
+      "required":true
+    }
+  },
+  "formation": {
+  },
+  "name": "flashdecks",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
