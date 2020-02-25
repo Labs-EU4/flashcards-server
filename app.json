@@ -10,7 +10,10 @@
     "DATABASE_URL": {
       "required": true
     },
-    "TEST_DATABASE_URL": {
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_SECRET": {
       "required": true
     },
     "SECRET": {
