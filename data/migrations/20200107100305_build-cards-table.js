@@ -17,9 +17,7 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
     table.string('question').notNullable();
     table.string('answer').notNullable();
-    table.string('image_url');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.timestamps(true, true);
   });
 };
 
