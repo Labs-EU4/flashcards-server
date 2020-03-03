@@ -49,9 +49,9 @@ exports.validateToken = async (req, res, next) => {
       req.userEmail = response.email;
       next();
     } else {
-      res.status(400).json({ message: `Email confirmation failed!` });
+      res.status(401).json({ message: `Email confirmation failed!` });
     }
   } catch (error) {
-    res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
+    res.status(500).json({ message: `Confirmation failed: ${error.message}!` });
   }
 };
