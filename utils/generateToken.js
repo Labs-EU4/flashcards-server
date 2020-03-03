@@ -3,9 +3,9 @@ const { SECRET } = require('../config/index');
 
 const generateToken = (user, secret = SECRET) => {
   const payload = user.passwordNotSet
-    ? { subject: user.id, name: user.full_name, email: user.email }
+    ? { subject: 0, name: user.full_name, email: user.email }
     : {
-        subject: 'unfinished',
+        subject: user.id,
         name: user.full_name,
       };
 
