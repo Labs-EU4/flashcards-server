@@ -1,6 +1,6 @@
 env:
   global:
-    - NODE_ENV=developement
+    - NODE_ENV=testing
 language: node_js
 node_js:
   - 'stable'
