@@ -12,39 +12,39 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-
+async function verifyCallback(accessToken, refreshToken, profile, done) {
+  /* This callback verifies user on our app's backend
+  and create's a new user if this user isn't registered */
+  const googleEmail = profile.emails[0].value;
+  console.log(accessToken);
+  try {
+    const user = await findBy({ email: googleEmail });
+    if (user) {
+      done(null, user);
+    } else {
+      // if user is not in db, set req.user to object
+      // and set passwordNotSet flag to true
+      const user = {
+        passwordNotSet: true,
+        full_name: profile.displayName,
+        email: googleEmail,
+      };
+      done(null, user);
+    }
+  } catch (error) {
+    done(error);
+  }
+}
 passport.use(
+  /* Strategy config, strategy is a function which 
+  takes care of verifying the user's credentials */
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.GOOGLE_BACKEND_BASEURL}auth/google/callback`,
+      callbackURL: `${process.env.GOOGLE_BACKEND_BASEURL}/auth/google/callback`,
     },
-    function(accessToken, refreshToken, profile, done) {
-      const googleEmail = profile.emails[0].value;
-      const encryptedId = bcrypt.hashSync(profile.id, 10);
-      findBy({ email: googleEmail })
-        .then(user => {
-          if (user) {
-            done(null, user);
-          } else {
-            createUser({
-              password: encryptedId,
-              full_name: profile.displayName,
-              email: googleEmail,
-            })
-              .then(user => {
-                done(null, user);
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    verifyCallback
   )
 );
 
