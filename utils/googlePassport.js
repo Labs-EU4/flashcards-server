@@ -1,9 +1,8 @@
 /* eslint-disable no-shadow */
 require('dotenv').config();
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const { findBy, createUser } = require('../resources/auth/model');
+const { findBy } = require('../resources/auth/model');
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -16,10 +15,11 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
   /* This callback verifies user on our app's backend
   and create's a new user if this user isn't registered */
   const googleEmail = profile.emails[0].value;
-  console.log(accessToken);
   try {
     const user = await findBy({ email: googleEmail });
     if (user) {
+      // done callback sets req.user on the request object
+      // to second passed argument
       done(null, user);
     } else {
       // if user is not in db, set req.user to object
