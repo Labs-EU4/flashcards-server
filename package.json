@@ -16,12 +16,6 @@
   "jest": {
     "testEnvironment": "node"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-fix && npm run lint ",
-      "pre-push": "npm run lint"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LABS-EU3/flashcards_backend.git"

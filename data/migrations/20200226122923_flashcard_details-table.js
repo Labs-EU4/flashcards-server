@@ -1,25 +1,26 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('sessions_tracker', table => {
+  return knex.schema.createTable('flashcard_details', table => {
     table.increments();
     table
-      .integer('session_id')
+      .integer('field_type_id')
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('sessions')
+      .inTable('flashcard_fields')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table
-      .integer('card_id')
+      .integer('flashcard_id')
       .unsigned()
       .notNullable()
       .references('id')
       .inTable('flashcards')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
+    table.string('field_value').notNullable();
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('sessions_tracker');
+  return knex.schema.dropTableIfExists('flashcard_details');
 };
