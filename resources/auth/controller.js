@@ -148,9 +148,9 @@ exports.uploadProfileImg = async (req, res) => {
 
 exports.authGoogle = async (req, res) => {
   try {
-    const { user } = req._passport.session;
+    const { user } = req;
     const token = await generateToken(user);
-    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
+    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}/${token}`);
   } catch (error) {
     res.status(401).json({
       message: `Error authenticating via google ${error.message}`,
@@ -170,6 +170,37 @@ exports.completeGoogleAuth = async (req, res) => {
     });
   } catch (error) {
     res.status(401).json({ message: `Failed to complete authorization` });
+  }
+};
+
+exports.setRecoveryPassword = async (req, res, next) => {
+  try {
+    const { email, name } = req.decodedToken;
+    console.log(req.decodedToken);
+    const { password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userCreated = await model.createUser({
+      email,
+      password: hashedPassword,
+      full_name: name,
+      isConfirmed: false,
+    });
+
+    const token = generateToken(userCreated);
+
+    const emailToken = generateToken(userCreated, EMAIL_SECRET);
+
+    sendEmail(welcomeText, email, emailTemplate(name, emailToken), null);
+
+    res.status(201).json({
+      message: `User created successfully`,
+      data: {
+        token,
+        user: userCreated,
+      },
+    });
+  } catch (error) {
+    next(error);
   }
 };
 

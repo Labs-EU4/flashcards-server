@@ -5,9 +5,9 @@ module.exports = (userFullName, token) => {
   const mailGenerator = new MailGen({
     theme: 'salted',
     product: {
-      name: 'QuickDecks',
+      name: 'Decksify',
       link: frontEndSite,
-      // logo: ToDo(Add logo URL)
+      logo: 'https://i.imgur.com/9KDYlzi.png',
     },
   });
 

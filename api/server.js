@@ -11,7 +11,6 @@ server.use(cors());
 server.use(helmet());
 
 server.use(googlePassport.Passport.initialize());
-server.use(googlePassport.Passport.session());
 
 server.use('/api', apiRouter);
 server.get('/', (req, res) => {

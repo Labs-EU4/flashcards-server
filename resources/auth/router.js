@@ -12,6 +12,7 @@ const {
   authGoogle,
   completeGoogleAuth,
   updatePassword,
+  setRecoveryPassword,
 } = require('./controller');
 const {
   signUpSchema,
@@ -76,6 +77,8 @@ authRouter.get(
 );
 
 authRouter.post('/google/:token', completeGoogleAuth);
+
+authRouter.post('/recovery', authorized, setRecoveryPassword);
 
 authRouter.post(
   '/update_password',
