@@ -1,11 +1,6 @@
 const express = require('express');
 
-const {
-  deleteUser,
-  getUserScore,
-  getLeaderboard,
-  updateUserProfile,
-} = require('./controller');
+const { deleteUser, updateUserProfile } = require('./controller');
 const {
   deleteAccountSchema,
   updateUserProfileSchema,
@@ -21,10 +16,6 @@ userRouter.delete(
   validateUserPassword,
   deleteUser
 );
-
-userRouter.get('/:id/score', getUserScore);
-
-userRouter.get('/leaderboard', getLeaderboard);
 
 userRouter.put(
   '/updateprofile',

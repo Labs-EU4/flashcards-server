@@ -10,8 +10,7 @@ exports.up = function(knex) {
       .onDelete('CASCADE');
     table.string('name').notNullable();
     table.boolean('public').defaultTo(false);
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.timestamps(true, true);
   });
 };
 

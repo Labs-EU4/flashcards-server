@@ -14,32 +14,4 @@ exports.flashCardSchema = joi.object({
     .integer()
     .label('Deck Id')
     .required(),
-  imageUrlQuestion: joi
-    .string()
-    .allow('')
-    .label('Image URL Question'),
-  imageUrlAnswer: joi
-    .string()
-    .allow('')
-    .label('Image URL Answer'),
-});
-
-exports.ratingsSchema = joi.object({
-  card_id: joi
-    .number()
-    .integer()
-    .label('Card Id')
-    .required(),
-
-  session_id: joi
-    .number()
-    .integer()
-    .label('Session Id')
-    .required(),
-
-  rating: joi
-    .number()
-    .integer()
-    .label('Card Score')
-    .required(),
 });

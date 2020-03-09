@@ -79,49 +79,6 @@ describe('Users route', () => {
     });
   });
 
-  describe('[GET] /api/users/:id/score', () => {
-    test('Returns 200 when score successfully fetched', async done => {
-      const res = await request(server)
-        .get(`/api/users/${user.id}/score`)
-        .set('Authorization', authToken);
-
-      expect(res.status).toBe(200);
-      done();
-    });
-
-    test('Score is never undefined', async done => {
-      const res = await request(server)
-        .get(`/api/users/${user.id}/score`)
-        .set('Authorization', authToken);
-
-      expect(res.status).toBe(200);
-      expect(res.body.data.score).not.toBe(undefined || null);
-      done();
-    });
-  });
-
-  describe('[GET] /api/users/leaderboard', () => {
-    test('Returns 200 when leaderboard successfully fetched', async done => {
-      const res = await request(server)
-        .get(`/api/users/leaderboard`)
-        .set('Authorization', authToken);
-
-      expect(res.status).toBe(200);
-      done();
-    });
-
-    test('Leaderboard is an array', async done => {
-      const res = await request(server)
-        .get(`/api/users/leaderboard`)
-        .set('Authorization', authToken);
-
-      expect(res.status).toBe(200);
-
-      expect(Array.isArray(res.body.data)).toBe(true);
-      done();
-    });
-  });
-
   describe('Update User Profile Endpoint', () => {
     test('Returns 200 on success', async done => {
       // authorize token, update user profile
