@@ -17,7 +17,7 @@ module.exports = (subject, recipients, emailBody, quickDecksEmail, next) => {
    * used for testing and the actual transporter to be used in production.
    */
   const mailOptions = {
-    from: `"Your QuickDecks Plug" <${senderEmail}>`,
+    from: `"Your Decksify Plug" <${senderEmail}>`,
     to: recipients,
     subject,
     bcc: quickDecksEmail,
