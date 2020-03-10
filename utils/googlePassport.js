@@ -18,7 +18,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.GOOGLE_BACKEND_BASEURL}auth/google/callback`,
+      callbackURL: `${process.env.GOOGLE_BACKEND_BASEURL}/auth/google/callback`,
     },
     function(accessToken, refreshToken, profile, done) {
       const googleEmail = profile.emails[0].value;
