@@ -2,11 +2,9 @@
 const Decks = require('./model');
 
 exports.getAllDecks = async (req, res) => {
-  const { subject } = req.decodedToken;
   try {
     const publicDecks = await Decks.getAll();
-    const usersDecks = await Decks.getUserDecks(subject);
-    const decks = [...publicDecks, ...usersDecks];
+    const decks = publicDecks;
     await res.status(200).json({ data: decks });
   } catch (error) {
     res.status(500).json({ message: `Error getting deck: ${error.message}` });

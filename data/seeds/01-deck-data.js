@@ -9,6 +9,46 @@ exports.seed = function(knex) {
           public: true,
         },
         {
+          name: 'Economics',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'Maths',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'Something Else',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'Chuck',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'Intersect 2.0',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'How to Sleep',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'How to Dance',
+          user_id: 1,
+          public: true,
+        },
+        {
+          name: 'Monsters',
+          user_id: 1,
+          public: true,
+        },
+        {
           name: 'General Science',
           user_id: 2,
           public: false,
