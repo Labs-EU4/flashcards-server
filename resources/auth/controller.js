@@ -150,7 +150,7 @@ exports.authGoogle = async (req, res) => {
   try {
     const { user } = req._passport.session;
     const token = await generateToken(user);
-    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
+    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}/${token}`);
   } catch (error) {
     res.status(401).json({
       message: `Error authenticating via google ${error.message}`,
