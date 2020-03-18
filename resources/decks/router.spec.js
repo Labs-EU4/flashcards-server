@@ -9,11 +9,21 @@ const userObject = {
   imageUrl: 'google.com',
 };
 
+const loginUserObject = {
+  email: 'testuser@xyz.com',
+  password: 'ALongSecurePassword',
+};
+
 const userObject2 = {
   fullName: 'Test User3',
   email: 'testusesr@xyz.com',
   password: 'ALongSecurePassword',
   imageUrl: 'google.com',
+};
+
+const loginUserObject2 = {
+  email: 'testuser@xyz.com',
+  password: 'ALongSecurePassword',
 };
 
 let user;
@@ -27,16 +37,24 @@ beforeEach(async done => {
   await db.seed.run({
     specific: '03-tags-data.js',
   });
-  const userRes = await request(server)
+  await request(server)
     .post('/api/auth/register')
     .send(userObject);
+
+  const userRes = await request(server)
+    .post('/api/auth/login')
+    .send(loginUserObject);
 
   authToken = userRes.body.data.token;
   user = userRes.body.data.user;
 
-  const userRes2 = await request(server)
+  await request(server)
     .post('/api/auth/register')
     .send(userObject2);
+
+  const userRes2 = await request(server)
+    .post('/api/auth/login')
+    .send(loginUserObject2);
 
   authToken2 = userRes2.body.data.user;
   done();
