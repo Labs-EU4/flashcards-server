@@ -13,11 +13,11 @@ const { senderEmail, password } = require('../config/index');
 
 module.exports = (subject, recipients, emailBody, quickDecksEmail, next) => {
   /**
-   * Details of email to be sent. This is common for both the transport stub
+   * Details of  email to be sent. This is common for both the transport stub
    * used for testing and the actual transporter to be used in production.
    */
   const mailOptions = {
-    from: `"Your QuickDecks Plug" <${senderEmail}>`,
+    from: `"Decksify" <${senderEmail}>`,
     to: recipients,
     subject,
     bcc: quickDecksEmail,
