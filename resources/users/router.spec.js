@@ -10,14 +10,24 @@ const userObject = {
   isConfirmed: false,
 };
 
+const loginUserObject = {
+  email: 'h.kakashi@gmail.com',
+  password: 'aVeryLongPassword',
+};
+
 let user;
 let authToken;
 
 beforeEach(async done => {
   await db.raw('TRUNCATE TABLE users CASCADE');
-  const userRes = await request(server)
+
+  await request(server)
     .post('/api/auth/register')
     .send(userObject);
+
+  const userRes = await request(server)
+    .post('/api/auth/login')
+    .send(loginUserObject);
 
   authToken = userRes.body.data.token;
   user = userRes.body.data.user;

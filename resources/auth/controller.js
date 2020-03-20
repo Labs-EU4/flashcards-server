@@ -28,8 +28,6 @@ exports.signup = async (req, res) => {
       isConfirmed: false,
     });
 
-    const token = generateToken(userCreated);
-
     const emailToken = generateToken(userCreated, EMAIL_SECRET);
 
     sendEmail(welcomeText, email, emailTemplate(fullName, emailToken), null);
@@ -37,7 +35,6 @@ exports.signup = async (req, res) => {
     res.status(201).json({
       message: `User created successfully`,
       data: {
-        token,
         user: userCreated,
       },
     });
