@@ -38,7 +38,6 @@ exports.getUserDecks = userId => {
     .select(
       'd.id as deck_id',
       'd.user_id',
-      'u.full_name as author',
       'd.name as deck_name',
       'd.public',
       'd.created_at',
@@ -49,7 +48,6 @@ exports.getUserDecks = userId => {
     .groupBy(
       'd.id',
       'd.user_id',
-      'u.full_name',
       'd.name',
       'd.public',
       'd.created_at',
