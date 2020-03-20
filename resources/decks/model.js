@@ -34,9 +34,11 @@ exports.getUserDecks = userId => {
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
     .leftJoin('flashcards as f', 'f.deck_id', 'd.id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
+    .leftJoin('users as u', 'u.id', 'd.user_id')
     .select(
       'd.id as deck_id',
       'd.user_id',
+      'u.full_name as author',
       'd.name as deck_name',
       'd.public',
       'd.created_at',
@@ -47,6 +49,7 @@ exports.getUserDecks = userId => {
     .groupBy(
       'd.id',
       'd.user_id',
+      'u.full_name',
       'd.name',
       'd.public',
       'd.created_at',
