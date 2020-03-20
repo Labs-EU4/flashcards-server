@@ -5,7 +5,11 @@ const jwt = require('jsonwebtoken');
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const { welcomeText } = require('../../utils/constants');
-const { EMAIL_SECRET, GOOGLE_FRONTEND_REDIRCT } = require('../../config');
+const {
+  EMAIL_SECRET,
+  GOOGLE_FRONTEND_REDIRCT,
+  SECRET,
+} = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
 const resetPasswordTemplate = require('../../templates/forgotPassword');
 const sendEmail = require('../../utils/sendEmail');
@@ -218,6 +222,26 @@ exports.updatePassword = async (req, res) => {
 
       await model.changePassword(subject, hashedPassword);
       res.status(200).json({ message: 'Password successfully updated' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.loginTokenCheck = (req, res) => {
+  const token = req.get('Authorization');
+
+  try {
+    if (token) {
+      try {
+        jwt.verify(token, SECRET);
+        res.status(201).json({ message: 'Token valid' });
+      } catch (error) {
+        res.status(401).json({ message: error.message });
+      }
+    } else {
+      res.status(400).json({ message: 'No Token' });
+      res.end();
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
