@@ -83,7 +83,7 @@ exports.forgotPassword = async (req, res) => {
     });
 
     sendEmail(
-      'Forgot Password - QuickDecks',
+      'Forgot Password - Decksify',
       resetRequestEmail,
       resetPasswordTemplate(resetRequestEmail, passwordResetToken),
       null
