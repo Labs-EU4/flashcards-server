@@ -13,6 +13,7 @@ const editDeckSchema = joi.object({
   name: joi.string().label('name'),
   removeTags: joi.array().items(joi.number().integer()),
   addTags: joi.array().items(joi.number().integer()),
+  isPublic: joi.string(),
 });
 
 module.exports = {
