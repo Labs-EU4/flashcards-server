@@ -14,9 +14,11 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
+      // ARRAY_AGG creates an array, array_remove removes NULL values
       db.raw(
         'array_to_json(array_remove(ARRAY_AGG( DISTINCT t), NULL)) as tags'
       ),
+      // ARRAY_AGG creates an array, array_remove removes NULL values
       db.raw(
         'array_to_json(array_remove(ARRAY_AGG( DISTINCT f), NULL)) as flashcards'
       )
