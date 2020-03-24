@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing",
-    "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit --coverage --runInBand",
+    "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit --coverage --runInBand --watchAll=true",
     "start": "node index.js",
     "server": "nodemon index.js ",
     "lint": "eslint . --ext .js",

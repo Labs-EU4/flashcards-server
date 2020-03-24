@@ -42,7 +42,7 @@ beforeEach(async done => {
     .set('Authorization', userRes.body.data.token);
 
   authToken = userRes.body.data.token;
-  flashcard.deckId = deckRes.body.deck.id;
+  flashcard.deckId = deckRes.body.deck.deck_id;
 
   user = userRes.body.data.user;
   done();
