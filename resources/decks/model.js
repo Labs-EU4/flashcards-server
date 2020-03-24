@@ -14,8 +14,14 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+      // ARRAY_AGG creates an array, array_remove removes NULL values
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT t), NULL)) as tags'
+      ),
+      // ARRAY_AGG creates an array, array_remove removes NULL values
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT f), NULL)) as flashcards'
+      )
     )
     .groupBy(
       'd.id',
@@ -42,8 +48,12 @@ exports.getUserDecks = userId => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT t), NULL)) as tags'
+      ),
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT f), NULL)) as flashcards'
+      )
     )
     .groupBy(
       'd.id',
@@ -75,8 +85,12 @@ exports.findById = id => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT t), NULL)) as tags'
+      ),
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT f), NULL)) as flashcards'
+      )
     )
     .groupBy(
       'd.id',
@@ -183,7 +197,9 @@ exports.getUserLastAccessed = id => {
       'd.created_at',
       'd.updated_at',
       'ra.accessed_time',
-      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+      db.raw(
+        'array_to_json(array_remove(ARRAY_AGG( DISTINCT f), NULL)) as flashcards'
+      )
     )
     .groupBy(
       'd.id',
