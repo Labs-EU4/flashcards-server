@@ -58,7 +58,7 @@ exports.addDeck = async (req, res) => {
     const newDeckRes = {
       deck: { ...deck, deck_id: deck.id, flashcards: [] },
     };
-    delete newDeckRes.id;
+    delete newDeckRes.deck.id;
     res.status(201).json(newDeckRes);
   } catch (error) {
     res.status(500).json({ message: `Error adding deck: ${error}` });
