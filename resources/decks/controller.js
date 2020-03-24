@@ -79,7 +79,7 @@ exports.deleteDeck = async (req, res) => {
 exports.updateDeck = async (req, res) => {
   const { subject } = req.decodedToken;
   const { id } = req.params;
-  const { removeTags, addTags, name } = req.body;
+  const { removeTags, addTags, name, isPublic } = req.body;
   try {
     if (addTags || removeTags) {
       if (addTags) {
@@ -100,7 +100,7 @@ exports.updateDeck = async (req, res) => {
       }
     }
     if (name) {
-      await Decks.update({ name: req.body.name }, id);
+      await Decks.update({ name, public: isPublic }, id);
     }
     const accessCxnData = { user_id: subject, deck_id: id };
     await Decks.findAccessConnection(accessCxnData);
