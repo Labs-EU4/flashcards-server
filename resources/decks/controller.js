@@ -120,9 +120,10 @@ exports.accessDeck = async (req, res) => {
     if (foundCxn) {
       await Decks.deckAccessed(accessCxnData);
       res.status(200).end();
+    } else {
+      await Decks.createAccessConnection(accessCxnData);
+      res.status(201).end();
     }
-    await Decks.createAccessConnection(accessCxnData);
-    res.status(201).end();
   } catch (error) {
     res.status(500).json({
       message: `Error updating deck access connection: ${error.message}`,
