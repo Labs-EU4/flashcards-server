@@ -13,6 +13,7 @@ const {
   completeGoogleAuth,
   updatePassword,
   setRecoveryPassword,
+  loginTokenCheck,
 } = require('./controller');
 const {
   signUpSchema,
@@ -87,4 +88,5 @@ authRouter.post(
   updatePassword
 );
 
+authRouter.post('/validate_token', loginTokenCheck);
 module.exports = authRouter;

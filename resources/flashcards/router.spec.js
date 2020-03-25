@@ -9,6 +9,11 @@ const userObject = {
   imageUrl: 'google.com',
 };
 
+const loginUserObject = {
+  email: 'testuser@xyz.com',
+  password: 'ALongSecurePassword',
+};
+
 let authToken;
 // eslint-disable-next-line no-unused-vars
 let user;
@@ -23,9 +28,13 @@ beforeEach(async done => {
   await db.seed.run({
     specific: '03-tags-data.js',
   });
-  const userRes = await request(server)
+  await request(server)
     .post('/api/auth/register')
     .send(userObject);
+
+  const userRes = await request(server)
+    .post('/api/auth/login')
+    .send(loginUserObject);
 
   const deckRes = await request(server)
     .post('/api/decks')
@@ -33,7 +42,7 @@ beforeEach(async done => {
     .set('Authorization', userRes.body.data.token);
 
   authToken = userRes.body.data.token;
-  flashcard.deckId = deckRes.body.deck.id;
+  flashcard.deckId = deckRes.body.deck.deck_id;
 
   user = userRes.body.data.user;
   done();

@@ -2,11 +2,9 @@
 const Decks = require('./model');
 
 exports.getAllDecks = async (req, res) => {
-  const { subject } = req.decodedToken;
   try {
     const publicDecks = await Decks.getAll();
-    const usersDecks = await Decks.getUserDecks(subject);
-    const decks = [...publicDecks, ...usersDecks];
+    const decks = publicDecks;
     await res.status(200).json({ data: decks });
   } catch (error) {
     res.status(500).json({ message: `Error getting deck: ${error.message}` });
@@ -57,7 +55,8 @@ exports.addDeck = async (req, res) => {
     }
     const accessCxnData = { user_id: subject, deck_id: deck.id };
     await Decks.createAccessConnection(accessCxnData);
-    res.status(201).json({ deck });
+    const newDeckRes = await Decks.findById(deck.id);
+    res.status(201).json({ deck: newDeckRes });
   } catch (error) {
     res.status(500).json({ message: `Error adding deck: ${error}` });
   }
@@ -78,7 +77,7 @@ exports.deleteDeck = async (req, res) => {
 exports.updateDeck = async (req, res) => {
   const { subject } = req.decodedToken;
   const { id } = req.params;
-  const { removeTags, addTags, name } = req.body;
+  const { removeTags, addTags, name, isPublic } = req.body;
   try {
     if (addTags || removeTags) {
       if (addTags) {
@@ -99,7 +98,7 @@ exports.updateDeck = async (req, res) => {
       }
     }
     if (name) {
-      await Decks.update({ name: req.body.name }, id);
+      await Decks.update({ name, public: isPublic }, id);
     }
     const accessCxnData = { user_id: subject, deck_id: id };
     await Decks.findAccessConnection(accessCxnData);
@@ -121,9 +120,10 @@ exports.accessDeck = async (req, res) => {
     if (foundCxn) {
       await Decks.deckAccessed(accessCxnData);
       res.status(200).end();
+    } else {
+      await Decks.createAccessConnection(accessCxnData);
+      res.status(201).end();
     }
-    await Decks.createAccessConnection(accessCxnData);
-    res.status(201).end();
   } catch (error) {
     res.status(500).json({
       message: `Error updating deck access connection: ${error.message}`,

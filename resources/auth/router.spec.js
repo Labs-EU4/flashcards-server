@@ -29,6 +29,11 @@ const userObject = {
   isConfirmed: false,
 };
 
+const userObject2 = {
+  email: 'maaruf@email.com',
+  password: 'maaruf',
+};
+
 const exampleMail = {
   to: 'john@domain.com',
   from: 'jimmy@domain.com',
@@ -64,14 +69,14 @@ describe('Auth Router', () => {
       done();
     });
 
-    test('Token is returned on signup successful', async done => {
+    test('Token is not returned on signup successful', async done => {
       const res = await request(server)
         .post('/api/auth/register')
         .send(userObject);
 
       expect(res.status).toBe(201);
 
-      expect(res.body.data.token).not.toBe(null || undefined);
+      expect(res.body.data.token).toBe(null || undefined);
       done();
     });
 
@@ -430,12 +435,16 @@ describe('Auth Router', () => {
 
   describe('Update password endpoint', () => {
     test('Returns 200 on successful update', async done => {
-      const res = await request(server)
+      await request(server)
         .post('/api/auth/register')
         .send(userObject);
 
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
       const { token } = res.body.data;
-      expect(res.status).toBe(201);
+      expect(res.status).toBe(200);
       expect(token).not.toBe(null || undefined);
 
       const response = await request(server)
@@ -453,12 +462,16 @@ describe('Auth Router', () => {
     });
 
     test('Fails if old password is invalid', async done => {
-      const res = await request(server)
+      await request(server)
         .post('/api/auth/register')
         .send(userObject);
 
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
       const { token } = res.body.data;
-      expect(res.status).toBe(201);
+      expect(res.status).toBe(200);
       expect(token).not.toBe(null || undefined);
 
       const response = await request(server)
