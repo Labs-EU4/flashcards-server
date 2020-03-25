@@ -55,12 +55,8 @@ exports.addDeck = async (req, res) => {
     }
     const accessCxnData = { user_id: subject, deck_id: deck.id };
     await Decks.createAccessConnection(accessCxnData);
-    const newDeckRes = {
-      deck: { ...deck, deck_id: deck.id, deck_name: deck.name, flashcards: [] },
-    };
-    delete newDeckRes.deck.id;
-    delete newDeckRes.deck.name;
-    res.status(201).json(newDeckRes);
+    const newDeckRes = await Decks.findById(deck.id);
+    res.status(201).json({ deck: newDeckRes });
   } catch (error) {
     res.status(500).json({ message: `Error adding deck: ${error}` });
   }

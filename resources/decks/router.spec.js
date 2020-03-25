@@ -97,7 +97,7 @@ describe('Decks API endpoints', () => {
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
-        .get(`/api/decks/${body.deck.id}`)
+        .get(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken);
 
       expect(response.body.deck.deck_name).toEqual('Test-deck');
@@ -136,7 +136,7 @@ describe('Decks API endpoints', () => {
         .send({ name: 'new-deck', tags: [1, 2, 3] });
       expect(response.status).toBe(201);
       expect(response.body.deck.user_id).toBe(user.id);
-      expect(response.body.deck.name).toBe('new-deck');
+      expect(response.body.deck.deck_name).toBe('new-deck');
       done();
     });
   });
@@ -162,7 +162,7 @@ describe('Decks API endpoints', () => {
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
-        .put(`/api/decks/${body.deck.id}`)
+        .put(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken);
 
       expect(response.status).toBe(200);
@@ -176,7 +176,7 @@ describe('Decks API endpoints', () => {
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
-        .put(`/api/decks/${body.deck.id}`)
+        .put(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken)
         .send({ name: 'updated-deck' });
 
@@ -199,7 +199,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server)
-        .put(`/api/decks/${body.deck.id}`)
+        .put(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken)
         .send({ addTags: [1000, 2131], removeTags: [230] });
       expect(response.status).toBe(400);
@@ -211,7 +211,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server)
-        .put(`/api/decks/${body.deck.id}`)
+        .put(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken)
         .send({ addTags: [1, 2, 3] });
       expect(response.status).toBe(400);
@@ -223,7 +223,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server)
-        .put(`/api/decks/${body.deck.id}`)
+        .put(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken2)
         .send({ addTags: [4, 5] });
       expect(response.status).toBe(401);
@@ -238,7 +238,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server).delete(
-        `/api/decks/${body.deck.id}`
+        `/api/decks/${body.deck.deck_id}`
       );
       expect(response.status).toBe(401);
       done();
@@ -251,14 +251,14 @@ describe('Decks API endpoints', () => {
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
-        .delete(`/api/decks/${body.deck.id}`)
+        .delete(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken);
 
       expect(response.status).toBe(204);
 
       // Check deck is deleted - should give Not Found response
       const responseDeleted = await request(server)
-        .get(`/api/decks/${body.deck.id}`)
+        .get(`/api/decks/${body.deck.deck_id}`)
         .set('Authorization', authToken);
 
       expect(responseDeleted.status).toEqual(404);
@@ -273,7 +273,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server)
-        .put(`/api/decks/access/${body.deck.id}`)
+        .put(`/api/decks/access/${body.deck.deck_id}`)
         .set('Authorization', authToken);
       expect(response.status).toBe(200);
       done();
@@ -284,7 +284,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server).put(
-        `/api/decks/access/${body.deck.id}`
+        `/api/decks/access/${body.deck.deck_id}`
       );
       expect(response.status).toBe(401);
       done();
@@ -298,11 +298,11 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       await request(server)
-        .put(`/api/decks/access/${body.deck.id}`)
+        .put(`/api/decks/access/${body.deck.deck_id}`)
         .set('Authorization', authToken);
 
       const response = await request(server)
-        .delete(`/api/decks/access/${body.deck.id}`)
+        .delete(`/api/decks/access/${body.deck.deck_id}`)
         .set('Authorization', authToken);
       expect(response.status).toBe(204);
       done();
@@ -312,7 +312,7 @@ describe('Decks API endpoints', () => {
         .post('/api/decks/')
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
-      await request(server).put(`/api/decks/access/${body.deck.id}`);
+      await request(server).put(`/api/decks/access/${body.deck.deck_id}`);
 
       const response = await request(server).delete(`/api/decks/access/500`);
       expect(response.status).toBe(401);
@@ -327,7 +327,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       await request(server)
-        .put(`/api/decks/access/${body.deck.id}`)
+        .put(`/api/decks/access/${body.deck.deck_id}`)
         .set('Authorization', authToken);
       const response = await request(server)
         .get(`/api/decks/access/`)
@@ -341,7 +341,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken)
         .send({ name: 'Test-deck', tags: [1, 2, 3] });
       await request(server)
-        .put(`/api/decks/access/${body.deck.id}`)
+        .put(`/api/decks/access/${body.deck.deck_id}`)
         .set('Authorization', authToken);
       const response = await request(server).get(`/api/decks/access/`);
       expect(response.status).toBe(401);
