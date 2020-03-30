@@ -29,10 +29,55 @@ function updateCard(id, card) {
     .then(() => getCardById(id));
 }
 
+async function initialiseDeckScore(userId, cardIds) {
+  for (i = 0; i < cardIds.length; i++) {
+    await db('card_mastery').insert({
+      user_id: userId,
+      flashcard_id: cardIds[i],
+      value: 0,
+    });
+  }
+  return cardIds.length;
+}
+
+function getNonMasteredCards(limit) {
+  return db('flashcards as f')
+    .leftJoin('card_mastery as cm', 'cm.flashcard_id', 'f.id')
+    .select(
+      'f.id',
+      'f.deck_id',
+      'f.user_id',
+      'f.question',
+      'f.answer',
+      'cm.value'
+    )
+    .groupBy(
+      'f.id',
+      'f.deck_id',
+      'f.user_id',
+      'f.question',
+      'f.answer',
+      'cm.value'
+    )
+    .orderBy('cm.value')
+    .limit(limit);
+}
+
+async function updateMemorizationRank(cardIds, ranks) {
+  for (i = 0; i < cardIds.length; i++) {
+    await db('card_mastery')
+      .where({ flashcard_id: cardIds[i] })
+      .update({ value: ranks[i] });
+  }
+}
+
 module.exports = {
   getCardById,
   getAllCardsByUser,
   createCard,
   removeCard,
   updateCard,
+  getNonMasteredCards,
+  updateMemorizationRank,
+  initialiseDeckScore,
 };
