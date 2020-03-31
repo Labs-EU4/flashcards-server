@@ -6,14 +6,14 @@ const deckSchema = joi.object({
     .label('name')
     .required(),
   tags: joi.array().items(joi.number().integer()),
-  isPublic: joi.string(),
+  isPublic: joi.boolean(),
 });
 
 const editDeckSchema = joi.object({
   name: joi.string().label('name'),
   removeTags: joi.array().items(joi.number().integer()),
   addTags: joi.array().items(joi.number().integer()),
-  isPublic: joi.string(),
+  isPublic: joi.boolean(),
 });
 
 module.exports = {
