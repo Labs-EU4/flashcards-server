@@ -179,7 +179,7 @@ exports.setDeckMastery = async (req, res) => {
   const { deck_id, rating_score } = req.body;
   try {
     await Decks.setUserDeckScore(deck_id, user_id, rating_score);
-    res.status(200).end();
+    res.status(200).json({ message: 'user deck score set' });
   } catch (error) {
     res.status(500).json({
       message: `Error setting deck mastery: ${error.message}`,

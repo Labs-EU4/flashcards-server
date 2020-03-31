@@ -225,13 +225,12 @@ exports.setUserDeckScore = (deck_id, user_id, rating_score) => {
 
 exports.getUserDeckScore = (deck_id, user_id) => {
   return db('deck_ratings')
-    .where({ deck_id })
-    .andWhere({ user_id });
+    .where({ deck_id, user_id })
+    .first();
 };
 
 exports.updateUserDeckScore = (deck_id, user_id, rating_score) => {
   return db('deck_ratings')
     .update({ rating_score })
-    .where({ user_id })
-    .andWhere({ deck_id });
+    .where({ user_id, deck_id });
 };

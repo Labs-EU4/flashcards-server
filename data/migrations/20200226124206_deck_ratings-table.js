@@ -1,6 +1,5 @@
 exports.up = function(knex) {
   return knex.schema.createTable('deck_ratings', table => {
-    table.increments();
     table
       .integer('deck_id')
       .unsigned()
@@ -17,6 +16,7 @@ exports.up = function(knex) {
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
+    table.primary(['deck_id', 'user_id']);
     table.integer('rating_score').notNullable();
   });
 };
