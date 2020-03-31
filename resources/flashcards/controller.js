@@ -94,13 +94,13 @@ exports.getLowCards = async (req, res) => {
   }
 };
 
-exports.updateMemo = async (req, res) => {
+exports.updateMemoRank = async (req, res) => {
   const { cardIds, ranks } = req.body;
   try {
     await updateMemorizationRank(cardIds, ranks);
     res
       .status(201)
-      .json({ message: 'success' })
+      .json({ message: 'updated memorization ranks' })
       .end();
   } catch (error) {
     res.status(500).json({
@@ -110,9 +110,10 @@ exports.updateMemo = async (req, res) => {
 };
 
 exports.initialise = async (req, res) => {
-  const { userId, cardIds } = req.body;
+  const { subject } = req.decodedToken;
+  const { cardIds } = req.body;
   try {
-    let num = await initialiseDeckScore(userId, cardIds);
+    let num = await initialiseDeckScore(subject, cardIds);
     res
       .status(200)
       .json({ message: `${num} card values initialised` })

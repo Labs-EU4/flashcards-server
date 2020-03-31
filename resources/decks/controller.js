@@ -175,7 +175,8 @@ exports.getFavoriteTags = async (req, res) => {
 };
 
 exports.setDeckMastery = async (req, res) => {
-  const { deck_id, user_id, rating_score } = req.body;
+  const user_id = req.decodedToken.subject;
+  const { deck_id, rating_score } = req.body;
   try {
     await Decks.setUserDeckScore(deck_id, user_id, rating_score);
     res.status(200).end();
@@ -187,7 +188,8 @@ exports.setDeckMastery = async (req, res) => {
 };
 
 exports.getDeckMastery = async (req, res) => {
-  const { deck_id, user_id } = req.body;
+  const user_id = req.decodedToken.subject;
+  const { deck_id } = req.body;
   try {
     const score = await Decks.getUserDeckScore(deck_id, user_id);
     res.status(200).json({ mastery: score });
@@ -199,7 +201,8 @@ exports.getDeckMastery = async (req, res) => {
 };
 
 exports.updateDeckMastery = async (req, res) => {
-  const { deck_id, user_id, rating_score } = req.body;
+  const user_id = req.decodedToken.subject;
+  const { deck_id, rating_score } = req.body;
   try {
     const newScore = await Decks.updateUserDeckScore(
       deck_id,

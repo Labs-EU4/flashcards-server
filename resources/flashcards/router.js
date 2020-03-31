@@ -7,7 +7,7 @@ const {
   deleteCard,
   editCard,
   getLowCards,
-  updateMemo,
+  updateMemoRank,
   initialise,
 } = require('./controller');
 const { flashCardSchema } = require('./flashcardsSchema');
@@ -28,7 +28,7 @@ flashcardsRouter.put(
   validate(flashCardSchema),
   editCard
 );
-flashcardsRouter.put('/', updateMemo);
+flashcardsRouter.put('/', updateMemoRank);
 flashcardsRouter.delete('/:id', cardExists, userOwnsCard, deleteCard);
 
 module.exports = flashcardsRouter;
