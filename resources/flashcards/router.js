@@ -17,9 +17,9 @@ const { cardExists, userOwnsCard } = require('./middlewares');
 const flashcardsRouter = express.Router();
 
 flashcardsRouter.post('/', validate(flashCardSchema), makeCard);
-flashcardsRouter.post('/intialise', initialise);
+flashcardsRouter.post('/initialise', initialise);
 flashcardsRouter.get('/', fetchAllCardsByUser);
-flashcardsRouter.get('/test', getLowCards);
+flashcardsRouter.get('/spaced-repetition', getLowCards);
 flashcardsRouter.get('/:id', cardExists, fetchCardById);
 flashcardsRouter.put(
   '/:id',

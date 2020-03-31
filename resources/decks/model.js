@@ -214,3 +214,24 @@ exports.getUserLastAccessed = id => {
     .orderBy('ra.accessed_time', 'desc')
     .limit(3);
 };
+
+exports.setUserDeckScore = (deck_id, user_id, rating_score) => {
+  return db('deck_ratings').insert({
+    deck_id: deck_id,
+    user_id: user_id,
+    rating_score: rating_score,
+  });
+};
+
+exports.getUserDeckScore = (deck_id, user_id) => {
+  return db('deck_ratings')
+    .where({ deck_id })
+    .andWhere({ user_id });
+};
+
+exports.updateUserDeckScore = (deck_id, user_id, rating_score) => {
+  return db('deck_ratings')
+    .update({ rating_score })
+    .where({ user_id })
+    .andWhere({ deck_id });
+};
