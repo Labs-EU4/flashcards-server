@@ -83,9 +83,10 @@ exports.deleteCard = async (req, res) => {
 };
 
 exports.getLowCards = async (req, res) => {
-  const { limit } = req.body;
+  const { subject } = req.decodedToken;
+  const { limit, deck_id } = req.body;
   try {
-    const cards = await getNonMasteredCards(limit);
+    const cards = await getNonMasteredCards(limit, deck_id, subject);
     res.status(200).json({ cards });
   } catch (error) {
     res.status(500).json({

@@ -40,7 +40,7 @@ async function initialiseDeckScore(userId, cardIds) {
   return cardIds.length;
 }
 
-function getNonMasteredCards(limit) {
+function getNonMasteredCards(limit, deck_id, user_id) {
   return db('flashcards as f')
     .leftJoin('card_mastery as cm', 'cm.flashcard_id', 'f.id')
     .select(
@@ -60,7 +60,8 @@ function getNonMasteredCards(limit) {
       'cm.value'
     )
     .orderBy('cm.value')
-    .limit(limit);
+    .limit(limit)
+    .where({ deck_id }, { user_id });
 }
 
 async function updateMemorizationRank(cardIds, ranks) {
