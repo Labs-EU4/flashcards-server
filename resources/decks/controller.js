@@ -189,10 +189,10 @@ exports.setDeckMastery = async (req, res) => {
 
 exports.getDeckMastery = async (req, res) => {
   const user_id = req.decodedToken.subject;
-  const { deck_id } = req.body;
+  const { deck_id } = req.query;
   try {
     const score = await Decks.getUserDeckScore(deck_id, user_id);
-    res.status(200).json({ mastery: score });
+    res.status(200).json({ mastery: score.rating_score });
   } catch (error) {
     res.status(500).json({
       message: `Error getting deck mastery: ${error.message}`,
