@@ -58,7 +58,6 @@ exports.editCard = async (req, res) => {
     deck_id: deckId,
     question: questionText,
     answer: answerText,
-    memorization_rank: 4,
   };
   try {
     const card = await updateCard(id, cardInfo);
