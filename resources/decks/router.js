@@ -11,6 +11,9 @@ const {
   accessDeck,
   recentlyAccessed,
   removeAccessed,
+  setDeckMastery,
+  getDeckMastery,
+  updateDeckMastery,
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema, editDeckSchema } = require('./schema');
@@ -27,6 +30,9 @@ router.put('/access/:id', deckExists, accessDeck);
 router.delete('/access/:id', deckExists, removeAccessed);
 router.post('/', validate(deckSchema), tagsExists, addDeck);
 router.get('/', getUsersDecks);
+router.post('/mastery', setDeckMastery);
+router.get('/mastery', getDeckMastery);
+router.put('/mastery', updateDeckMastery);
 router.get('/favorite', getFavoriteTags);
 router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);

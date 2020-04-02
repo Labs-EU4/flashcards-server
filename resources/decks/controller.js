@@ -173,3 +173,46 @@ exports.getFavoriteTags = async (req, res) => {
     });
   }
 };
+
+exports.setDeckMastery = async (req, res) => {
+  const user_id = req.decodedToken.subject;
+  const { deck_id, rating_score } = req.body;
+  try {
+    await Decks.setUserDeckScore(deck_id, user_id, rating_score);
+    res.status(200).json({ message: 'user deck score set' });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error setting deck mastery: ${error.message}`,
+    });
+  }
+};
+
+exports.getDeckMastery = async (req, res) => {
+  const user_id = req.decodedToken.subject;
+  const { deck_id } = req.query;
+  try {
+    const score = await Decks.getUserDeckScore(deck_id, user_id);
+    res.status(200).json({ mastery: score.rating_score });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error getting deck mastery: ${error.message}`,
+    });
+  }
+};
+
+exports.updateDeckMastery = async (req, res) => {
+  const user_id = req.decodedToken.subject;
+  const { deck_id, rating_score } = req.body;
+  try {
+    const newScore = await Decks.updateUserDeckScore(
+      deck_id,
+      user_id,
+      rating_score
+    );
+    res.status(201).json({ mastery: newScore });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error getting deck mastery: ${error.message}`,
+    });
+  }
+};

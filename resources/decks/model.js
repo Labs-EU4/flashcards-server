@@ -41,6 +41,7 @@ exports.getUserDecks = userId => {
     .leftJoin('flashcards as f', 'f.deck_id', 'd.id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .leftJoin('users as u', 'u.id', 'd.user_id')
+    .leftJoin('deck_ratings as dr', 'dr.deck_id', 'd.id')
     .select(
       'd.id as deck_id',
       'd.user_id',
@@ -48,6 +49,7 @@ exports.getUserDecks = userId => {
       'd.public',
       'd.created_at',
       'd.updated_at',
+      'dr.rating_score as rating_score',
       db.raw(
         'array_to_json(array_remove(ARRAY_AGG( DISTINCT t), NULL)) as tags'
       ),
@@ -61,7 +63,8 @@ exports.getUserDecks = userId => {
       'd.name',
       'd.public',
       'd.created_at',
-      'd.updated_at'
+      'd.updated_at',
+      'dr.rating_score'
     )
     .where({ 'd.user_id': userId });
 };
@@ -213,4 +216,24 @@ exports.getUserLastAccessed = id => {
     .where({ 'ra.user_id': id })
     .orderBy('ra.accessed_time', 'desc')
     .limit(3);
+};
+
+exports.setUserDeckScore = (deck_id, user_id, rating_score) => {
+  return db('deck_ratings').insert({
+    deck_id: deck_id,
+    user_id: user_id,
+    rating_score: rating_score,
+  });
+};
+
+exports.getUserDeckScore = (deck_id, user_id) => {
+  return db('deck_ratings')
+    .where({ deck_id, user_id })
+    .first();
+};
+
+exports.updateUserDeckScore = (deck_id, user_id, rating_score) => {
+  return db('deck_ratings')
+    .update({ rating_score })
+    .where({ user_id, deck_id });
 };

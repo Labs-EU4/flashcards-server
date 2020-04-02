@@ -3,6 +3,9 @@ const {
   getAllCardsByUser,
   removeCard,
   updateCard,
+  getNonMasteredCards,
+  updateMemorizationRank,
+  initialiseDeckScore,
 } = require('./model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
@@ -74,6 +77,50 @@ exports.deleteCard = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `Failed to delete, ${error.message}`,
+    });
+  }
+};
+
+exports.getLowCards = async (req, res) => {
+  const { subject } = req.decodedToken;
+  const { limit, deck_id } = req.query;
+  try {
+    const cards = await getNonMasteredCards(limit, deck_id, subject);
+    res.status(200).json({ cards });
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to fetch all flashcards, ${error.message}`,
+    });
+  }
+};
+
+exports.updateMemoRank = async (req, res) => {
+  const { cardIds, ranks } = req.body;
+  try {
+    await updateMemorizationRank(cardIds, ranks);
+    res
+      .status(201)
+      .json({ message: 'updated memorization ranks' })
+      .end();
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to update, ${error.message}`,
+    });
+  }
+};
+
+exports.initialise = async (req, res) => {
+  const { subject } = req.decodedToken;
+  const { cardIds } = req.body;
+  try {
+    let num = await initialiseDeckScore(subject, cardIds);
+    res
+      .status(200)
+      .json({ message: `${num} card values initialised` })
+      .end();
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to update, ${error.message}`,
     });
   }
 };

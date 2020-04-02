@@ -17,7 +17,11 @@ exports.up = function(knex) {
       .inTable('flashcards')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.integer('value').notNullable();
+    table
+      .integer('value')
+      .unsigned()
+      .notNullable()
+      .defaultTo(0);
   });
 };
 
