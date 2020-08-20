@@ -34,7 +34,7 @@
   "homepage": "https://github.com/LABS-EU3/flashcards_backend#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.0",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
